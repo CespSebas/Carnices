@@ -1,0 +1,237 @@
+ /* Estilos base de la tarjeta */
+.resenna-detalle-card {
+  max-width: 900px;
+  margin: 2rem auto;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+/* Encabezado */
+.resenna-detalle-card mat-card-header {
+  background-color: #f5f7fa;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e1e5eb;
+  display: flex;
+  align-items: center;
+}
+
+.header-content {
+  flex: 1;
+}
+
+.resenna-detalle-card mat-card-title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #2d3748;
+  margin-bottom: 0.25rem;
+}
+
+.resenna-detalle-card mat-card-subtitle {
+  color: #4a5568;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.header-icon {
+  font-size: 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 0.5rem;
+  color: #4a5568;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 1rem;
+}
+
+.user-avatar mat-icon {
+  color: #718096;
+  font-size: 1.5rem;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Contenido */
+.resenna-detalle-card mat-card-content {
+  padding: 1.5rem;
+}
+
+.content-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.info-icon {
+  color: #4c51bf;
+  font-size: 1.25rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-top: 0.15rem;
+}
+
+.info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 0.85rem;
+  color: #718096;
+  margin-bottom: 0.15rem;
+}
+
+.info-value {
+  font-size: 1rem;
+  color: #2d3748;
+  font-weight: 400;
+}
+
+/* Valoración */
+.rating-value {
+  font-weight: 500;
+  color: #2d3748;
+  margin-right: 0.5rem;
+}
+
+.rating-stars {
+  display: inline-flex;
+  align-items: center;
+}
+
+.rating-stars mat-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  font-size: 1.2rem;
+  margin-right: 0.1rem;
+}
+
+.full-star {
+  color: #f6ad55;
+}
+
+.half-star {
+  color: #f6ad55;
+}
+
+.empty-star {
+  color: #e2e8f0;
+}
+
+/* Sección de comentario */
+.comment-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e1e5eb;
+}
+
+.comment-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  color: #2d3748;
+  margin-bottom: 0.75rem;
+}
+
+.comment-icon {
+  color: #4c51bf;
+  font-size: 1.2rem;
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.comment-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #4a5568;
+  padding: 0.75rem;
+  background-color: #f8fafc;
+  border-radius: 6px;
+  border-left: 3px solid #e2e8f0;
+}
+
+/* Estado inactivo */
+.estado-inactivo {
+  color: #c53030;
+  font-weight: 500;
+  padding: 0.75rem;
+  background-color: #fff5f5;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  border-left: 3px solid #feb2b2;
+}
+
+.estado-inactivo mat-icon {
+  color: #c53030;
+  font-size: 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* Acciones */
+.resenna-detalle-card mat-card-actions {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e1e5eb;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.action-button {
+  border-radius: 6px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.action-button mat-icon {
+  font-size: 1.1rem;
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .resenna-detalle-card {
+    margin: 1rem;
+    max-width: calc(100% - 2rem);
+  }
+  
+  .resenna-detalle-card mat-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .user-avatar {
+    margin-left: 0;
+    margin-top: 0.75rem;
+  }
+  
+  .info-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}

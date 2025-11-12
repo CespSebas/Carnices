@@ -1,0 +1,95 @@
+/* Contenedor principal */
+div {
+    margin: 20px;
+}
+
+/* Tabla */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: white;
+}
+
+/* Encabezados de columna */
+th.mat-header-cell {
+    background-color: #B71D2C;
+    color: white;
+    font-weight: 500;
+    font-size: 14px;
+    padding: 16px;
+    text-align: center;
+}
+
+button{
+    color: #B71D2C;;
+    background-color:  rgba(255, 255, 255, 0.85);
+}
+
+/* Celdas */
+td.mat-cell {
+    padding: 12px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #000000;
+}
+
+/* Filas */
+tr.mat-row {
+    transition: background-color 0.8s;
+}
+
+tr.mat-row:hover {
+    background-color: #f5f5f5;
+}
+
+/* Alternar colores de fila */
+tr.mat-row:nth-child(even) {
+    background-color: #fafafa;
+}
+
+tr.mat-row:nth-child(even):hover {
+    background-color: #f0f0f0;
+}
+
+/* Mensaje cuando no hay reseñas */
+.noResenias p {
+    text-align: center;
+    color: #757575;
+    font-size: 16px;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    margin: 20px;
+}
+
+/* Estilo para la valoración */
+td[matColumnDef="valoracion"] {
+    font-weight: bold;
+    color: #ff9800;
+    /* Color naranja para las valoraciones */
+}
+
+/* Estilo para el precio */
+td[matColumnDef="precio"] {
+    font-weight: bold;
+    color: #4caf50;
+    /* Color verde para los precios */
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+
+    th.mat-header-cell,
+    td.mat-cell {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+
+    .mat-elevation-z8 {
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+}

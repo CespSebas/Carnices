@@ -1,0 +1,116 @@
+<mat-card class="product-detail-card">
+    @if (datos) {
+    <div class="product-detail-container">
+        <div class="product-gallery">
+            <div class="image-slider">
+                <button mat-icon-button class="nav-arrow prev" (click)="prevImage()">
+                    <mat-icon>chevron_left</mat-icon>
+                </button>
+
+                <div class="slide-container">
+                    <img *ngFor="let img of datos.imagenes; let i = index"
+                        [src]="'http://localhost:3000/images/' + img.imagen"
+                        [alt]="datos.nombre + ' ' + (i + 1)"
+                        class="main-image"
+                        [class.active]="currentImageIndex === i">
+                </div>
+
+                <button mat-icon-button class="nav-arrow next" (click)="nextImage()">
+                    <mat-icon>chevron_right</mat-icon>
+                </button>
+            </div>
+
+            <div class="thumbnail-container">
+                @for (img of datos.imagenes; track $index) {
+                <img [src]="'http://localhost:3000/images/' + img.imagen"
+                    [alt]="datos.nombre + ' thumbnail ' + ($index + 1)"
+                    class="thumbnail"
+                    [class.active]="currentImageIndex === $index"
+                    (click)="changeImage($index)">
+                }
+            </div>
+        </div>
+
+        <div class="product-info">
+            <mat-card-header class="product-header">
+                <mat-card-title-group>
+                    <mat-card-title class="product-title">{{datos?.nombre}}</mat-card-title>
+                    <mat-card-subtitle class="product-category">{{datos.categoria.nombre}}</mat-card-subtitle>
+                </mat-card-title-group>
+            </mat-card-header>
+
+            <mat-card-content class="product-content">
+                <div class="price-section">
+                    <span class="current-price">{{datos.precio | currency:"USD"}}</span>
+                </div>
+
+                <div class="product-description">
+                    <h3 class="section-title">Descripción</h3>
+                    <p>{{datos.descripcion}}</p>
+                </div>
+
+                <div class="tags-section">
+                    <h3 class="section-title">Etiquetas</h3>
+                    <div class="tags-container">
+                        @for (item of datos.etiquetas; track $index) {
+                        <span class="tag">{{item.etiqueta.nombre}}</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="actions-section">
+                    <button mat-raised-button color="primary" class="add-to-cart">Añadir al carrito</button>
+                    <button mat-stroked-button class="wishlist">Guardar en lista de deseos</button>
+                </div>
+
+                 
+
+            </mat-card-content>
+
+            <span class="average-value">Valoración promedio: {{ promedioValoracion.toFixed(1) }}/5</span>
+        </div>
+
+        <div class="product-reviews">
+            <h3 class="section-title">Reseñas</h3>
+            @if (datos.resennas && datos.resennas.length > 0) {
+            @for (item of datos.resennas; track $index) {
+            <div class="review-item">
+                <div class="review-header">
+                    <div class="rating-stars">
+                        @for (star of generateStars(item.valoracion); track $index) {
+                        <mat-icon [class]="star.class">{{ star.icon }}</mat-icon>
+                        }
+                    </div>
+                    <div class="rating-value">{{ item.valoracion }}/5</div>
+                </div>
+
+                <p class="review-text">“{{ item.descripcion }}”</p>
+
+                <div class="review-footer">
+                    <span class="review-author">
+                        <mat-icon inline style="font-size: 16px; vertical-align: middle;">person</mat-icon>
+                        {{ item.usuario?.nombre || 'Usuario desconocido' }}
+                    </span>
+                    <span class="review-date" *ngIf="item.fecha">
+                        ({{ item.fecha | date: 'dd/MM/yyyy HH:mm' }})
+                    </span>
+                </div>
+            </div>
+            }
+            } @else {
+            <p class="no-reviews">Este producto aún no tiene reseñas</p>
+            }
+            <button mat-button class="write-review">Escribir una reseña</button>
+        </div>
+    </div>
+    } @else {
+    <mat-card-content class="not-found-content">
+        <div class="not-found-container">
+            <mat-icon class="not-found-icon">error_outline</mat-icon>
+            <h2>Producto no encontrado</h2>
+            <p>Lo sentimos, no pudimos encontrar el producto que buscas.</p>
+            <button mat-raised-button color="primary" (click)="goBack()">Volver a la tienda</button>
+        </div>
+    </mat-card-content>
+    }
+</mat-card>

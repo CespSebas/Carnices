@@ -1,0 +1,31 @@
+<div class="pedido-listado-container">
+  <h1 class="titulo-listado">Pedidos Recientes</h1>
+
+  <div class="pedido-fila encabezado">
+    <div class="columna id">ID</div>
+    <div class="columna estado">Estado</div>
+    <div class="columna fecha">Fecha</div>
+    <div class="columna direccion">Dirección</div>
+    <div class="columna metodo">Método de Pago</div>
+    <div class="columna total">Total</div>
+    <div class="columna items">Items</div>
+    <div class="columna acciones">Acciones</div>
+  </div>
+
+  <div class="pedido-fila" *ngFor="let pedido of datos">
+    <div class="columna id">#{{ pedido.id }}</div>
+    <div class="columna estado">
+      <span class="estado estado-{{ pedido.estado.toLowerCase() }}">{{ pedido.estado }}</span>
+    </div>
+    <div class="columna fecha">{{ pedido.fecha | date:'shortDate' }}</div>
+    <div class="columna direccion">{{ pedido.direccionEnvio }}</div>
+    <div class="columna metodo">{{ pedido.metodoPago }}</div>
+    <div class="columna total">{{ pedido.total | currency:'CRC' }}</div>
+    <div class="columna items">{{ pedido.items.length }}</div>
+    <div class="columna acciones">
+      <button mat-stroked-button color="#B71D2C" (click)="detalle(pedido.id)">
+        <mat-icon>visibility</mat-icon> Ver
+      </button>
+    </div>
+  </div>
+</div>

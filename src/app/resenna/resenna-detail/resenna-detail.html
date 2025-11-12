@@ -1,0 +1,67 @@
+<mat-card class="resenna-detalle-card mat-elevation-z8" *ngIf="datos">
+    <mat-card-header>
+        <div class="header-content">
+            <mat-card-title>Detalle de la Reseña</mat-card-title>
+            <mat-card-subtitle>
+                <mat-icon class="header-icon">calendar_today</mat-icon>
+                {{ datos.fecha | date: 'dd/MM/yyyy HH:mm' }}
+            </mat-card-subtitle>
+        </div>
+        <div class="user-avatar" *ngIf="datos.usuario">
+            <mat-icon>account_circle</mat-icon>
+        </div>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="content-section">
+            <div class="info-row">
+                <mat-icon class="info-icon">person</mat-icon>
+                <div class="info-text">
+                    <span class="info-label">Usuario:</span>
+                    <span class="info-value">{{ datos.usuario.nombre }}</span>
+                </div>
+            </div>
+            
+            <div class="info-row">
+                <mat-icon class="info-icon">shopping_bag</mat-icon>
+                <div class="info-text">
+                    <span class="info-label">Producto:</span>
+                    <span class="info-value">{{ datos.producto.nombre }}</span>
+                </div>
+            </div>
+            
+            <div class="info-row">
+                <mat-icon class="info-icon">star</mat-icon>
+                <div class="info-text">
+                    <span class="info-label">Valoración:</span>
+                    <span class="rating-value">{{ datos.valoracion }} / 5</span>
+                    <span class="rating-stars">
+                        @for (star of generateStars(datos.valoracion); track $index) {
+                        <mat-icon [class]="star.class">{{star.icon}}</mat-icon>
+                        }
+                    </span>
+                </div>
+            </div>
+            
+            <div class="comment-section">
+                <h3 class="comment-title">
+                    <mat-icon class="comment-icon">rate_review</mat-icon>
+                    Comentario
+                </h3>
+                <p class="comment-text">{{ datos.descripcion }}</p>
+            </div>
+            
+            <div *ngIf="!datos.estado" class="estado-inactivo">
+                <mat-icon>warning</mat-icon>
+                Esta reseña está inactiva.
+            </div>
+        </div>
+    </mat-card-content>
+
+    <mat-card-actions>
+        <button mat-raised-button color="primary" routerLink="/resenna" class="action-button">
+            <mat-icon>arrow_back</mat-icon>
+            Volver al listado
+        </button>
+    </mat-card-actions>
+</mat-card>

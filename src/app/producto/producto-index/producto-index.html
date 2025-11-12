@@ -1,0 +1,64 @@
+<div class="shop-container">
+  <aside class="filter-panel">
+    <div class="filter-header">
+      <h2>Filtrar Productos</h2>
+      <button mat-icon-button class="close-filters" (click)="toggleFilters()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <mat-accordion class="filter-accordion">
+      <mat-expansion-panel expanded="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Búsqueda</mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nombre del producto</mat-label>
+          <input matInput placeholder="Ej: Laptop HP">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </aside>
+
+  <main class="product-grid">
+    <div class="grid-header">
+      <h1>Nuestros Productos</h1>
+      <span class="results-count">{{datos?.length}} productos encontrados</span>
+      <button mat-stroked-button class="mobile-filter-btn" (click)="toggleFilters()">
+        <mat-icon>filter_list</mat-icon>
+        Filtros
+      </button>
+    </div>
+
+    <div class="grid-layout" *ngIf="datos">
+      <mat-card class="product-tile" *ngFor="let item of datos; trackBy: trackById">
+        <div class="product-badge" *ngIf="item.descuento">-{{item.descuento}}%</div>
+        <div class="product-image">
+          <img [src]="'http://localhost:3000/images/' + item.imagenes[0]?.imagen" [alt]="item.nombre">
+        </div>
+        <div class="product-info">
+          <h3 class="product-name">{{item.nombre}}</h3>
+          <div class="price-section">
+            <ng-container *ngIf="item.descuento; else noDiscount">
+              <span class="original-price">{{item.precio | currency:'USD':'symbol':'1.2-2'}}</span>
+              <span class="current-price">{{item.precioDescuento | currency:'USD':'symbol':'1.2-2'}}</span>
+            </ng-container>
+            <ng-template #noDiscount>
+              <span class="current-price">{{item.precio | currency:'USD':'symbol':'1.2-2'}}</span>
+            </ng-template>
+          </div>
+          <div class="product-actions">
+            <button mat-icon-button color="primary" (click)="detalle(item.id)">
+              <mat-icon>visibility</mat-icon>
+            </button>
+            <button mat-raised-button color="accent" (click)="comprar(item)">
+              <mat-icon>add_shopping_cart</mat-icon>
+              Añadir
+            </button>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </main>
+</div>
