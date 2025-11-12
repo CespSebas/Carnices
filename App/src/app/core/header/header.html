@@ -1,0 +1,64 @@
+<mat-toolbar class="app-header">
+
+  <!-- Logo -->
+  <div class="header-left">
+    <button mat-button [routerLink]="['/inicio']" class="logo-section" aria-label="Logo Carnices">
+      <span class="app-name"> </span>
+    </button>
+  </div>
+
+  <!-- Espaciador central -->
+  <span class="header-spacer"></span>
+
+  <!-- Botones principales -->
+  <div class="header-center">
+    <button mat-button [routerLink]="['/inicio']" class="main-btn">
+      <span>{{ 'HOME' | translate }}</span>
+    </button>
+    <button mat-button [routerLink]="['/producto']" class="main-btn">
+      <span>{{ 'PRODUCTS' | translate }}</span>
+    </button>
+    <button mat-button [routerLink]="['/pedido']" class="main-btn">
+      <span>{{ 'ORDERS' | translate }}</span>
+    </button>
+    <button mat-button [routerLink]="['/acercade']" class="main-btn">
+      <span>{{ 'ABOUT' | translate }}</span>
+    </button>
+  </div>
+
+  <!-- Espaciador -->
+  <span class="header-spacer"></span>
+
+  <!-- Acciones de usuario -->
+  <div class="header-right">
+    <!-- Carrito -->
+    <button mat-icon-button class="cart-button" [matBadge]="qtyItems()" matBadgeColor="warn" aria-label="Carrito">
+      <mat-icon>shopping_cart</mat-icon>
+    </button>
+
+    <!-- Email usuario -->
+    <span *ngIf="isAuthenticated()" class="user-email">{{ currentUser()?.correo }}</span>
+
+    <!-- Icono usuario -->
+    <button mat-icon-button aria-label="Usuario">
+      <mat-icon>{{ isAuthenticated() ? 'account_circle' : 'person' }}</mat-icon>
+    </button>
+
+    <!-- Selector idioma -->
+    <button mat-button [matMenuTriggerFor]="languageMenu" aria-label="Cambiar idioma">
+      <mat-icon>language</mat-icon>
+    </button>
+
+    <mat-menu #languageMenu="matMenu">
+      <button mat-menu-item (click)="changeLanguage('es')">
+        <img src="../../../assets/cr.svg" alt="Español" width="20" height="20" style="margin-right:8px;">
+        {{ 'SPANISH' | translate }}
+      </button>
+      <button mat-menu-item (click)="changeLanguage('en')">
+        <img src="../../../assets/us.svg" alt="English" width="20" height="20" style="margin-right:8px;">
+        {{ 'ENGLISH' | translate }}
+      </button>
+    </mat-menu>
+  </div>
+
+</mat-toolbar>

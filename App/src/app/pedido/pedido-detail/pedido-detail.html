@@ -1,0 +1,72 @@
+<mat-card class="pedido-detail-card" *ngIf="datos; else noData">
+  <div class="encabezado">
+    <h2>Factura - Pedido #{{ datos.id }}</h2>
+    <p>Fecha de emisión: {{ datos.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+  </div>
+
+  <div class="cliente-info">
+    <h3>Información del Cliente</h3>
+    <p><strong>Nombre:</strong> {{ datos.usuario.nombre }}</p>
+    <p><strong>Dirección de envío:</strong> {{ datos.direccionEnvio }}</p>
+  </div>
+
+  <div class="productos-section">
+    <h3>Productos</h3>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio Unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of datos.items">
+          <td>{{ item.producto.nombre }}</td>
+          <td>{{ item.cantidad }}</td>
+          <td>{{ item.producto.precio | currency:'USD' }}</td>
+          <td>{{ calcularSubtotalProducto(item) | currency:'USD' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="personalizados-section" *ngIf="datos.personalizados?.length > 0">
+    <h3>Productos Personalizados</h3>
+    <div *ngFor="let p of datos.personalizados" class="personalizado-box">
+      <p><strong>Producto:</strong> {{ p.producto.nombre }}</p>
+      <p><strong>Costo Base:</strong> {{ p.producto.precio | currency:'USD' }}</p>
+      <div class="criterios">
+        <p><strong>Opciones Seleccionadas:</strong></p>
+        <ul>
+          <li *ngFor="let o of p.opciones">
+            {{ o.nombre }} - {{ o.costo | currency:'USD' }}
+          </li>
+        </ul>
+      </div>
+      <p><strong>Total Personalizado:</strong> {{ calcularTotalPersonalizado(p) | currency:'USD' }}</p>
+    </div>
+  </div>
+
+  <div class="resumen">
+    <h3>Resumen del Pedido</h3>
+    <p><strong>Subtotal:</strong> {{ datos.subtotal | currency:'USD' }}</p>
+    <p><strong>Impuestos:</strong> {{ calcularImpuestos() | currency:'USD' }}</p>
+    <p><strong>Total:</strong> {{ datos.total | currency:'USD' }}</p>
+    <p><strong>Método de Pago:</strong> {{ datos.metodoPago }}</p>
+  </div>
+
+  <button mat-raised-button  (click)="goBack()">Volver al listado</button>
+</mat-card>
+
+<ng-template #noData>
+  <mat-card class="not-found-content">
+    <div class="not-found-container">
+      <mat-icon class="not-found-icon">error_outline</mat-icon>
+      <h2>Pedido no encontrado</h2>
+      <p>No se encontró el pedido solicitado.</p>
+      <button mat-raised-button  (click)="goBack()">Volver</button>
+    </div>
+  </mat-card>
+</ng-template>
