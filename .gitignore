@@ -14,3 +14,6 @@ logs
 # IDEs
 .vscode/
 .idea/
+
+# gh-pages temporary cache
+App/node_modules/.cache/gh-pages/
