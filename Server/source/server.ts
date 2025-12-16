@@ -61,5 +61,8 @@ app.use("/images",express.static(
 app.use('/public', express.static(path.join(__dirname, '..', 'public')));
 
 app.listen(port, () => {
-  console.log(`Servidor iniciado en: http://localhost:${port}`);
+  console.log(`Servidor iniciado en el puerto ${port}`);
+
 });
+
+export default app;
