@@ -1,0 +1,163 @@
+/* Fondo Matrix dinámico */
+.matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #ffffff;
+  z-index: 0;
+  overflow: hidden;
+}
+
+#matrix {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Contenedor principal */
+.container {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  color: #facc15;
+  font-family: 'Consolas', monospace;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 30px;
+  user-select: none;
+  text-align: center;
+}
+
+/* Hexágono 3D dinámico */
+.hexagon-3d {
+  width: 180px;
+  height: 180px;
+  background: linear-gradient(45deg, #facc15, #a17c0c);
+  clip-path: polygon(
+    25% 6.7%, 75% 6.7%,
+    100% 50%, 75% 93.3%,
+    25% 93.3%, 0% 50%
+  );
+  animation: rotate3D 8s linear infinite;
+  filter: drop-shadow(0 0 12px #facc15);
+  margin: 0 auto;
+}
+
+/* Animación de rotación 3D */
+@keyframes rotate3D {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: rotateX(180deg) rotateY(180deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+/* Texto */
+h1 {
+  font-size: 8rem;
+  font-weight: 900;
+  letter-spacing: 0.25em;
+  margin: 0;
+  text-shadow: 0 0 18px #facc15;
+  user-select: none;
+}
+
+p {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin: 0;
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+  text-shadow: 0 0 10px #facc15;
+}
+
+/* Robot */
+.robot {
+  width: 180px;
+  animation: float 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 25px #facc15);
+  user-select: none;
+  margin: 0 auto;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25px);
+  }
+}
+
+/* Botón eléctrico */
+
+.btn-electric {
+  background: transparent;
+  border: 3px solid #facc15;
+  color: #ffffff;
+  padding: 16px 48px;
+  font-weight: 700;
+  font-size: 1.3rem;
+  border-radius: 40px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  box-shadow: 0 0 20px #facc15;
+  transition: color 0.3s ease, box-shadow 0.3s ease;
+  user-select: none;
+  margin: 20px auto 0 auto;
+  display: block;
+  max-width: 250px;
+}
+
+.btn-electric:hover {
+  color: #ffffff;
+  background: #facc15;
+  box-shadow: 0 0 60px #facc15, 0 0 120px #facc15;
+}
+
+.btn-electric::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -50%;
+  width: 200%;
+  height: 150%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  transform: skewX(-25deg);
+  transition: left 0.7s ease;
+  pointer-events: none;
+  filter: drop-shadow(0 0 15px #facc15);
+  opacity: 0.8;
+  z-index: 1;
+}
+
+.btn-electric:hover::before {
+  left: 150%;
+}
+
+/* Animación glow al hacer click */
+@keyframes glowClick {
+  0%, 100% {
+    box-shadow: 0 0 20px #facc15;
+  }
+  50% {
+    box-shadow: 0 0 80px #facc15;
+  }
+}
+
+.glow-animation {
+  animation: glowClick 0.5s ease forwards;
+}

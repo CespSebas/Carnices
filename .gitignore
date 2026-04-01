@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
@@ -40,3 +41,24 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+=======
+# Node
+node_modules/
+dist/
+.env
+
+# Logs
+logs
+*.log
+
+# Build
+**/dist/
+**/.angular/
+
+# IDEs
+.vscode/
+.idea/
+
+# gh-pages temporary cache
+App/node_modules/.cache/gh-pages/
+>>>>>>> main

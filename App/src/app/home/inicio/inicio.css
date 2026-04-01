@@ -1,0 +1,118 @@
+/* Hero full screen profesional */
+.hero-professional {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url('../../../assets/images/portada01.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed; /* efecto parallax sutil */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fefbea;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.6)); /* degradado elegante */
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  padding: 0 2rem;
+  animation: fadeInUp 1s ease-out forwards;
+  opacity: 0;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  color: #f59e0b;
+  letter-spacing: 1px;
+}
+
+.hero-subtitle {
+  font-size: 1.3rem;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+  color: #fffbea;
+}
+
+/* Animación suave */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Botones profesionales */
+.hero-cta {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.hero-btn {
+  padding: 0.9rem 2.2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.hero-btn.primary {
+  background-color: #f59e0b;
+  color: #3e1f1f;
+}
+
+.hero-btn.primary:hover {
+  background-color: #fffbea;
+  color: #7b1f1f;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+.hero-btn.secondary {
+  background-color: transparent;
+  border: 2px solid #fefbea;
+  color: #fefbea;
+}
+
+.hero-btn.secondary:hover {
+  background-color: #f59e0b;
+  color: #3e1f1f;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-btn {
+    width: 100%;
+    text-align: center;
+  }
+}

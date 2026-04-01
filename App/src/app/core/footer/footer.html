@@ -1,0 +1,42 @@
+<mat-toolbar class="footer" role="contentinfo">
+  <mat-toolbar-row class="footer-content">
+    <!-- Logo / Título -->
+    <div class="footer-section footer-left">
+      <mat-icon class="footer-icon" aria-hidden="true">outdoor_grill</mat-icon>
+      <span class="footer-title">Carnices</span>
+    </div>
+
+    <!-- Enlaces traducibles con las mismas keys globales -->
+    <nav class="footer-section footer-links" aria-label="Enlaces del pie de página">
+      <a routerLink="/terminos" routerLinkActive="active-link" class="footer-link">
+        {{ 'TERMS' | translate }}
+      </a>
+      <a routerLink="/privacidad" routerLinkActive="active-link" class="footer-link">
+        {{ 'PRIVACY' | translate }}
+      </a>
+      <a routerLink="/soporte" routerLinkActive="active-link" class="footer-link">
+        {{ 'SUPPORT' | translate }}
+      </a>
+      <a routerLink="/contacto" routerLinkActive="active-link" class="footer-link">
+        {{ 'CONTACT' | translate }}
+      </a>
+    </nav>
+
+    <!-- Redes sociales -->
+    <div class="footer-section footer-socials" aria-label="Redes sociales">
+      <a href="#" aria-label="Facebook" class="social-icon" matTooltip="Facebook">
+        <mat-icon>facebook</mat-icon>
+      </a>
+      <a href="#" aria-label="YouTube" class="social-icon" matTooltip="YouTube">
+        <mat-icon>ondemand_video</mat-icon>
+      </a>
+    </div>
+  </mat-toolbar-row>
+
+  <!-- Línea inferior -->
+  <mat-toolbar-row class="footer-bottom">
+    <span class="footer-copy">
+      © {{ today | date: 'yyyy' }} Carnices. {{ 'ALL_RIGHTS_RESERVED' | translate }}
+    </span>
+  </mat-toolbar-row>
+</mat-toolbar>

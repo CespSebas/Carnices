@@ -1,0 +1,107 @@
+.pedido-listado-container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 2rem;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f7fa;
+}
+
+.titulo-listado {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.pedido-fila {
+  display: grid;
+  grid-template-columns: 60px 120px 120px 1fr 140px 120px 80px 120px;
+  align-items: center;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  transition: background 0.2s ease;
+}
+
+button{
+    color: #B71D2C !important;
+    background-color:  rgba(255, 255, 255, 0.85);
+}
+.pedido-fila.encabezado {
+  background: transparent;
+  box-shadow: none;
+  font-weight: 600;
+  color: #666;
+  border-bottom: 2px solid #ddd;
+  padding: 0.75rem 1rem;
+}
+
+.columna {
+  padding: 0 0.5rem;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.estado {
+  padding: 0.3rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #fff;
+  display: inline-block;
+  text-align: center;
+}
+
+.estado-pendientedepago {
+  background-color: #f39c12;
+}
+.estado-pagado {
+  background-color: #27ae60;
+}
+.estado-enpreparacion {
+  background-color: #3498db;
+}
+.estado-enviado {
+  background-color: #9b59b6;
+}
+.estado-entregado {
+  background-color: #2ecc71;
+}
+.estado-cancelado {
+  background-color: #e74c3c;
+}
+
+.columna.acciones button {
+  font-size: 0.8rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+@media (max-width: 960px) {
+  .pedido-fila {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto auto auto;
+    padding: 1rem;
+  }
+
+  .pedido-fila.encabezado {
+    display: none;
+  }
+
+  .columna {
+    padding: 0.25rem 0;
+  }
+
+  .columna.acciones {
+    grid-column: span 2;
+    text-align: right;
+  }
+}
