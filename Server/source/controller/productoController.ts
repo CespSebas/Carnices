@@ -152,7 +152,7 @@ export class ProductoController {
     }
   };
 
-  delete = async (request: Request, response: Response, next: NextFunction) => {
+  remove = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const idProducto = parseInt(request.params.id);
       if (isNaN(idProducto)) return next(AppError.badRequest('El ID no es válido'));

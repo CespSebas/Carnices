@@ -94,7 +94,7 @@ export class ResennaController {
     }
   };
 
-  delete = async (request: Request, response: Response, next: NextFunction) => {
+  remove = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const idResenna = parseInt(request.params.id);
       if (isNaN(idResenna)) return next(AppError.badRequest('El ID de reseña no es válido'));

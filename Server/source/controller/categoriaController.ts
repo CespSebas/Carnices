@@ -77,7 +77,7 @@ export class CategoriaController {
     }
   };
 
-  delete = async (request: Request, response: Response, next: NextFunction) => {
+  remove = async (request: Request, response: Response, next: NextFunction) => {
     try {
       const id = parseInt(request.params.id);
       if (isNaN(id)) return next(AppError.badRequest('ID no válido'));
