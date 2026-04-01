@@ -1,13 +1,12 @@
 import { Router } from 'express';
-import { ProductoController } from '../controller/productoController';
+import { CategoriaController } from '../controller/categoriaController';
 
-export class ProductoRoutes {
+export class CategoriaRoutes {
   static get routes(): Router {
     const router = Router();
-    const controller = new ProductoController();
+    const controller = new CategoriaController();
 
     router.get('/', controller.get);
-    router.get('/search', controller.search);
     router.get('/:id', controller.getById);
     router.post('/', controller.create);
     router.put('/:id', controller.update);

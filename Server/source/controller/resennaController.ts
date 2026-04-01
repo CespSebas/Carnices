@@ -1,17 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../errors/custom.error';
-import { PrismaClient } from '../../generated/prisma';
+import { prisma } from '../lib/prisma';
+
 export class ResennaController {
-  prisma = new PrismaClient();
   get = async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const listado = await this.prisma.resenna.findMany({
-        orderBy: {
-          valoracion: 'desc',
-        },
+      const listado = await prisma.resenna.findMany({
+        where: { activo: true },
+        orderBy: { valoracion: 'desc' },
         include: {
-          usuario: true,
-          producto: true,
+          usuario: { select: { id: true, nombre: true } },
+          producto: { select: { id: true, nombre: true } },
         },
       });
       response.json(listado);
@@ -19,84 +18,92 @@ export class ResennaController {
       next(error);
     }
   };
-  //Obtener por Id
-  getById = async (
-  request: Request,
-  response: Response,
-  next: NextFunction
-) => {
-  try {
-    const idResenna = parseInt(request.params.id);
 
-    if (isNaN(idResenna)) {
-      return next(AppError.badRequest('El ID de reseña no es válido'));
-    }
-
-    const objResenna = await this.prisma.resenna.findUnique({
-      where: { id: idResenna },
-      include: {
-        usuario: {
-          select: {
-            correo: true,
-            nombre: true, // Ajusta según campos que tenga tu modelo Usuario
-          },
-        },
-        producto: {
-          select: {
-            id: true,
-            nombre: true,
-          },
-        },
-       
-      },
-    });
-
-    if (objResenna) {
-      response.status(200).json(objResenna);
-    } else {
-      next(AppError.notFound('No existe la reseña'));
-    }
-  } catch (error: any) {
-    next(error);
-  }
-};
-
-
-  search = async (request: Request, response: Response, next: NextFunction) => {
+  getById = async (request: Request, response: Response, next: NextFunction) => {
     try {
-      //Obtener los valores del query string
+      const idResenna = parseInt(request.params.id);
+      if (isNaN(idResenna)) return next(AppError.badRequest('El ID de reseña no es válido'));
 
-      const { termino } = request.query;
-      if (typeof termino !== 'string' || termino.trim() === '') {
-        next(AppError.badRequest('El termino de busqueda es requerido'));
-      }
-      const searchTerm: string = termino as string;
-      const objVideojuego = await this.prisma.producto.findMany({
-        where: {
-          nombre: {
-            contains: searchTerm,
-          },
-        },
+      const resenna = await prisma.resenna.findUnique({
+        where: { id: idResenna },
         include: {
-          
+          usuario: { select: { id: true, nombre: true, correo: true } },
+          producto: { select: { id: true, nombre: true } },
         },
       });
 
-      response.json(objVideojuego); //Respuesta
+      if (!resenna) return next(AppError.notFound('Reseña no encontrada'));
+      response.status(200).json(resenna);
     } catch (error) {
       next(error);
     }
   };
-  //Crear
+
   create = async (request: Request, response: Response, next: NextFunction) => {
     try {
+      const { descripcion, valoracion, productoId, usuarioId } = request.body;
+
+      if (!descripcion || valoracion === undefined || !productoId || !usuarioId) {
+        return next(AppError.badRequest('Descripción, valoración, producto y usuario son requeridos'));
+      }
+
+      if (valoracion < 1 || valoracion > 5) {
+        return next(AppError.badRequest('La valoración debe estar entre 1 y 5'));
+      }
+
+      const resenna = await prisma.resenna.create({
+        data: { descripcion, valoracion, productoId, usuarioId },
+        include: {
+          usuario: { select: { id: true, nombre: true } },
+          producto: { select: { id: true, nombre: true } },
+        },
+      });
+
+      response.status(201).json(resenna);
     } catch (error) {
       next(error);
     }
   };
-  //Actualizar
+
   update = async (request: Request, response: Response, next: NextFunction) => {
     try {
+      const idResenna = parseInt(request.params.id);
+      if (isNaN(idResenna)) return next(AppError.badRequest('El ID de reseña no es válido'));
+
+      const resenna = await prisma.resenna.findUnique({ where: { id: idResenna } });
+      if (!resenna) return next(AppError.notFound('Reseña no encontrada'));
+
+      const { descripcion, valoracion, activo } = request.body;
+
+      if (valoracion !== undefined && (valoracion < 1 || valoracion > 5)) {
+        return next(AppError.badRequest('La valoración debe estar entre 1 y 5'));
+      }
+
+      const actualizada = await prisma.resenna.update({
+        where: { id: idResenna },
+        data: {
+          descripcion: descripcion ?? undefined,
+          valoracion: valoracion ?? undefined,
+          activo: activo ?? undefined,
+        },
+      });
+
+      response.json(actualizada);
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  delete = async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const idResenna = parseInt(request.params.id);
+      if (isNaN(idResenna)) return next(AppError.badRequest('El ID de reseña no es válido'));
+
+      const resenna = await prisma.resenna.findUnique({ where: { id: idResenna } });
+      if (!resenna) return next(AppError.notFound('Reseña no encontrada'));
+
+      await prisma.resenna.update({ where: { id: idResenna }, data: { activo: false } });
+      response.json({ message: 'Reseña desactivada exitosamente' });
     } catch (error) {
       next(error);
     }

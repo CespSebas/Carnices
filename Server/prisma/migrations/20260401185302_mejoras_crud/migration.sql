@@ -5,6 +5,7 @@ CREATE TABLE `Usuario` (
     `correo` VARCHAR(191) NOT NULL,
     `contrasenna` VARCHAR(191) NOT NULL,
     `rol` ENUM('Administrador', 'Cliente') NOT NULL DEFAULT 'Cliente',
+    `activo` BOOLEAN NOT NULL DEFAULT true,
     `creadoEn` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `actualizadoEn` DATETIME(3) NOT NULL,
 
@@ -18,6 +19,9 @@ CREATE TABLE `Categoria` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nombre` VARCHAR(191) NOT NULL,
     `descripcion` VARCHAR(250) NULL,
+    `activo` BOOLEAN NOT NULL DEFAULT true,
+    `creadoEn` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `actualizadoEn` DATETIME(3) NOT NULL,
 
     UNIQUE INDEX `Categoria_nombre_key`(`nombre`),
     INDEX `Categoria_nombre_idx`(`nombre`),
@@ -49,6 +53,8 @@ CREATE TABLE `PresentacionProducto` (
     `precio` DECIMAL(10, 2) NOT NULL,
     `stock` INTEGER NOT NULL DEFAULT 0,
     `activo` BOOLEAN NOT NULL DEFAULT true,
+    `creadoEn` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `actualizadoEn` DATETIME(3) NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -72,6 +78,7 @@ CREATE TABLE `CarritoItem` (
     `cantidad` INTEGER NOT NULL DEFAULT 1,
     `precioUnitario` DECIMAL(10, 2) NOT NULL,
 
+    UNIQUE INDEX `CarritoItem_carritoId_presentacionProductoId_key`(`carritoId`, `presentacionProductoId`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -106,6 +113,7 @@ CREATE TABLE `Pago` (
     `metodo` ENUM('TARJETA', 'PAYPAL', 'TRANSFERENCIA', 'EFECTIVO') NOT NULL,
     `estado` ENUM('PENDIENTE', 'COMPLETADO', 'FALLIDO', 'REEMBOLSADO') NOT NULL DEFAULT 'PENDIENTE',
     `fecha` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `actualizadoEn` DATETIME(3) NOT NULL,
     `transaccionId` VARCHAR(191) NULL,
 
     PRIMARY KEY (`id`)
@@ -115,6 +123,8 @@ CREATE TABLE `Pago` (
 CREATE TABLE `Imagen` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `url` VARCHAR(500) NOT NULL,
+    `orden` INTEGER NOT NULL DEFAULT 0,
+    `esPrincipal` BOOLEAN NOT NULL DEFAULT false,
     `productoId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
@@ -127,6 +137,7 @@ CREATE TABLE `Resenna` (
     `valoracion` INTEGER NOT NULL,
     `activo` BOOLEAN NOT NULL DEFAULT true,
     `creadoEn` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `actualizadoEn` DATETIME(3) NOT NULL,
     `productoId` INTEGER NOT NULL,
     `usuarioId` INTEGER NOT NULL,
 
@@ -138,7 +149,10 @@ CREATE TABLE `Etiqueta` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `nombre` VARCHAR(191) NOT NULL,
     `descripcion` VARCHAR(150) NULL,
+    `creadoEn` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `actualizadoEn` DATETIME(3) NOT NULL,
 
+    UNIQUE INDEX `Etiqueta_nombre_key`(`nombre`),
     INDEX `Etiqueta_nombre_idx`(`nombre`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
@@ -158,13 +172,13 @@ ALTER TABLE `Producto` ADD CONSTRAINT `Producto_categoriaId_fkey` FOREIGN KEY (`
 ALTER TABLE `Producto` ADD CONSTRAINT `Producto_creadorId_fkey` FOREIGN KEY (`creadorId`) REFERENCES `Usuario`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `PresentacionProducto` ADD CONSTRAINT `PresentacionProducto_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `PresentacionProducto` ADD CONSTRAINT `PresentacionProducto_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Carrito` ADD CONSTRAINT `Carrito_usuarioId_fkey` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Carrito` ADD CONSTRAINT `Carrito_usuarioId_fkey` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `CarritoItem` ADD CONSTRAINT `CarritoItem_carritoId_fkey` FOREIGN KEY (`carritoId`) REFERENCES `Carrito`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `CarritoItem` ADD CONSTRAINT `CarritoItem_carritoId_fkey` FOREIGN KEY (`carritoId`) REFERENCES `Carrito`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `CarritoItem` ADD CONSTRAINT `CarritoItem_presentacionProductoId_fkey` FOREIGN KEY (`presentacionProductoId`) REFERENCES `PresentacionProducto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -173,25 +187,25 @@ ALTER TABLE `CarritoItem` ADD CONSTRAINT `CarritoItem_presentacionProductoId_fke
 ALTER TABLE `Pedido` ADD CONSTRAINT `Pedido_usuarioId_fkey` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `PedidoItem` ADD CONSTRAINT `PedidoItem_pedidoId_fkey` FOREIGN KEY (`pedidoId`) REFERENCES `Pedido`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `PedidoItem` ADD CONSTRAINT `PedidoItem_pedidoId_fkey` FOREIGN KEY (`pedidoId`) REFERENCES `Pedido`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `PedidoItem` ADD CONSTRAINT `PedidoItem_presentacionProductoId_fkey` FOREIGN KEY (`presentacionProductoId`) REFERENCES `PresentacionProducto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Pago` ADD CONSTRAINT `Pago_pedidoId_fkey` FOREIGN KEY (`pedidoId`) REFERENCES `Pedido`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Pago` ADD CONSTRAINT `Pago_pedidoId_fkey` FOREIGN KEY (`pedidoId`) REFERENCES `Pedido`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Imagen` ADD CONSTRAINT `Imagen_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Imagen` ADD CONSTRAINT `Imagen_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Resenna` ADD CONSTRAINT `Resenna_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Resenna` ADD CONSTRAINT `Resenna_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Resenna` ADD CONSTRAINT `Resenna_usuarioId_fkey` FOREIGN KEY (`usuarioId`) REFERENCES `Usuario`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `EtiquetaProducto` ADD CONSTRAINT `EtiquetaProducto_etiquetaId_fkey` FOREIGN KEY (`etiquetaId`) REFERENCES `Etiqueta`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `EtiquetaProducto` ADD CONSTRAINT `EtiquetaProducto_etiquetaId_fkey` FOREIGN KEY (`etiquetaId`) REFERENCES `Etiqueta`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `EtiquetaProducto` ADD CONSTRAINT `EtiquetaProducto_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `EtiquetaProducto` ADD CONSTRAINT `EtiquetaProducto_productoId_fkey` FOREIGN KEY (`productoId`) REFERENCES `Producto`(`id`) ON DELETE CASCADE ON UPDATE CASCADE;

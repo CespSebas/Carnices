@@ -50,6 +50,7 @@ model Usuario {
   correo        String   @unique
   contrasenna   String
   rol           Rol      @default(Cliente)
+  activo        Boolean  @default(true)
   creadoEn      DateTime @default(now())
   actualizadoEn DateTime @updatedAt
 
@@ -63,10 +64,13 @@ model Usuario {
 }
 
 model Categoria {
-  id          Int      @id @default(autoincrement())
-  nombre      String   @unique
-  descripcion String?  @db.VarChar(250)
-  productos   Producto[]
+  id            Int        @id @default(autoincrement())
+  nombre        String     @unique
+  descripcion   String?    @db.VarChar(250)
+  activo        Boolean    @default(true)
+  creadoEn      DateTime   @default(now())
+  actualizadoEn DateTime   @updatedAt
+  productos     Producto[]
 
   @@index([nombre])
 }
@@ -75,17 +79,17 @@ model Producto {
   id            Int      @id @default(autoincrement())
   nombre        String
   descripcion   String?  @db.VarChar(500)
-  precio        Decimal  @db.Decimal(10, 2) // precio por kilo
+  precio        Decimal  @db.Decimal(10, 2)
   activo        Boolean  @default(true)
   creadoEn      DateTime @default(now())
   actualizadoEn DateTime @updatedAt
 
   categoriaId Int
-  categoria   Categoria @relation(fields: [categoriaId], references: [id])
+  categoria   Categoria @relation(fields: [categoriaId], references: [id], onDelete: Restrict)
 
   creadorId Int?
-  creador   Usuario? @relation("UsuarioProductos", fields: [creadorId], references: [id])
-  
+  creador   Usuario? @relation("UsuarioProductos", fields: [creadorId], references: [id], onDelete: SetNull)
+
   imagenes       Imagen[]
   resennas       Resenna[]
   etiquetas      EtiquetaProducto[]
@@ -101,14 +105,16 @@ model Producto {
 model PresentacionProducto {
   id         Int      @id @default(autoincrement())
   productoId Int
-  producto   Producto @relation(fields: [productoId], references: [id])
-  
-  nombre String // Ej: "Kilo", "Medio kilo", "Piña completa"
-  peso   Decimal? @db.Decimal(10, 2) // Peso en kg, opcional
-  precio Decimal  @db.Decimal(10, 2) // Precio de esta presentación
-  stock  Int      @default(0)
-  activo Boolean  @default(true)
-  
+  producto   Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+
+  nombre        String
+  peso          Decimal? @db.Decimal(10, 2)
+  precio        Decimal  @db.Decimal(10, 2)
+  stock         Int      @default(0)
+  activo        Boolean  @default(true)
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
+
   carritoItems CarritoItem[]
   pedidoItems  PedidoItem[]
 }
@@ -118,11 +124,11 @@ model PresentacionProducto {
 // =======================
 
 model Carrito {
-  id        Int      @id @default(autoincrement())
-  usuarioId Int
-  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
-  activo    Boolean  @default(true)
-  creadoEn  DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  usuarioId     Int
+  usuario       Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  activo        Boolean  @default(true)
+  creadoEn      DateTime @default(now())
   actualizadoEn DateTime @updatedAt
 
   items CarritoItem[]
@@ -131,13 +137,15 @@ model Carrito {
 model CarritoItem {
   id        Int     @id @default(autoincrement())
   carritoId Int
-  carrito   Carrito @relation(fields: [carritoId], references: [id])
-  
+  carrito   Carrito @relation(fields: [carritoId], references: [id], onDelete: Cascade)
+
   presentacionProductoId Int
-  presentacionProducto   PresentacionProducto @relation(fields: [presentacionProductoId], references: [id])
-  
+  presentacionProducto   PresentacionProducto @relation(fields: [presentacionProductoId], references: [id], onDelete: Restrict)
+
   cantidad       Int     @default(1)
-  precioUnitario Decimal @db.Decimal(10, 2) // Precio en el momento de agregar al carrito
+  precioUnitario Decimal @db.Decimal(10, 2)
+
+  @@unique([carritoId, presentacionProductoId])
 }
 
 // =======================
@@ -147,26 +155,26 @@ model CarritoItem {
 model Pedido {
   id            Int          @id @default(autoincrement())
   usuarioId     Int
-  usuario       Usuario      @relation(fields: [usuarioId], references: [id])
+  usuario       Usuario      @relation(fields: [usuarioId], references: [id], onDelete: Restrict)
   creadoEn      DateTime     @default(now())
   actualizadoEn DateTime     @updatedAt
   estado        EstadoPedido @default(PENDIENTE)
   total         Decimal      @db.Decimal(10, 2)
 
-  items         PedidoItem[]
-  pagos         Pago[]
+  items PedidoItem[]
+  pagos Pago[]
 }
 
 model PedidoItem {
-  id        Int     @id @default(autoincrement())
-  pedidoId  Int
-  pedido    Pedido  @relation(fields: [pedidoId], references: [id])
-  
+  id       Int    @id @default(autoincrement())
+  pedidoId Int
+  pedido   Pedido @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
+
   presentacionProductoId Int
-  presentacionProducto   PresentacionProducto @relation(fields: [presentacionProductoId], references: [id])
-  
+  presentacionProducto   PresentacionProducto @relation(fields: [presentacionProductoId], references: [id], onDelete: Restrict)
+
   cantidad       Int
-  precioUnitario Decimal @db.Decimal(10, 2) // Precio al momento de la compra
+  precioUnitario Decimal @db.Decimal(10, 2)
 }
 
 // =======================
@@ -176,12 +184,13 @@ model PedidoItem {
 model Pago {
   id            Int        @id @default(autoincrement())
   pedidoId      Int
-  pedido        Pedido     @relation(fields: [pedidoId], references: [id])
+  pedido        Pedido     @relation(fields: [pedidoId], references: [id], onDelete: Cascade)
   monto         Decimal    @db.Decimal(10, 2)
   metodo        MetodoPago
   estado        EstadoPago @default(PENDIENTE)
   fecha         DateTime   @default(now())
-  transaccionId String?    // ID externo (ej: Stripe, PayPal, etc.)
+  actualizadoEn DateTime   @updatedAt
+  transaccionId String?
 }
 
 // =======================
@@ -189,10 +198,12 @@ model Pago {
 // =======================
 
 model Imagen {
-  id         Int      @id @default(autoincrement())
-  url        String   @db.VarChar(500)
-  productoId Int
-  producto   Producto @relation(fields: [productoId], references: [id])
+  id          Int      @id @default(autoincrement())
+  url         String   @db.VarChar(500)
+  orden       Int      @default(0)
+  esPrincipal Boolean  @default(false)
+  productoId  Int
+  producto    Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
 }
 
 // =======================
@@ -200,17 +211,18 @@ model Imagen {
 // =======================
 
 model Resenna {
-  id          Int      @id @default(autoincrement())
-  descripcion String   @db.VarChar(500)
-  valoracion  Int
-  activo      Boolean  @default(true)
-  creadoEn    DateTime @default(now())
+  id            Int      @id @default(autoincrement())
+  descripcion   String   @db.VarChar(500)
+  valoracion    Int
+  activo        Boolean  @default(true)
+  creadoEn      DateTime @default(now())
+  actualizadoEn DateTime @updatedAt
 
   productoId Int
-  producto   Producto @relation(fields: [productoId], references: [id])
+  producto   Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
 
   usuarioId Int
-  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Restrict)
 }
 
 // =======================
@@ -218,19 +230,21 @@ model Resenna {
 // =======================
 
 model Etiqueta {
-  id          Int                @id @default(autoincrement())
-  nombre      String
-  descripcion String?            @db.VarChar(150)
-  productos   EtiquetaProducto[]
+  id            Int                @id @default(autoincrement())
+  nombre        String             @unique
+  descripcion   String?            @db.VarChar(150)
+  creadoEn      DateTime           @default(now())
+  actualizadoEn DateTime           @updatedAt
+  productos     EtiquetaProducto[]
 
   @@index([nombre])
 }
 
 model EtiquetaProducto {
   etiquetaId Int
-  etiqueta   Etiqueta @relation(fields: [etiquetaId], references: [id])
+  etiqueta   Etiqueta @relation(fields: [etiquetaId], references: [id], onDelete: Cascade)
   productoId Int
-  producto   Producto @relation(fields: [productoId], references: [id])
+  producto   Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
 
   @@id([etiquetaId, productoId])
 }

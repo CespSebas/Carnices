@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, NextFunction } from 'express';
+import express, { Express, Request, Response } from 'express';
 import morgan from 'morgan';
 import * as dotenv from 'dotenv';
 import cors from 'cors';
@@ -26,25 +26,17 @@ app.use(
 
 // Ruta base de prueba
 app.get('/', (req: Request, res: Response) => {
-  res.send(' Servidor acaba de iniciar' );
+  res.send('Servidor iniciado correctamente');
 });
 
-// Registro de rutas personalizadas
-// app.use(AppRoutes.routes);
-
-// Middleware para manejo de errores
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.error(' Error:', err.stack);
-  res.status(500).json({ error: 'Error interno del servidor' });
-});
+// Logger de requests
 app.use((req, res, next) => {
   console.log(`[${req.method}] ${req.url}`);
   next();
 });
 
-//---- Registro de rutas ----
- 
-app.use(AppRoutes.routes)
+// Registro de rutas
+app.use(AppRoutes.routes);
   
 
  
