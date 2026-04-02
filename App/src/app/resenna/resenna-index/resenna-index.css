@@ -82,14 +82,23 @@ td[matColumnDef="precio"] {
 
 /* Responsive */
 @media (max-width: 768px) {
+  div {
+    margin: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 
-    th.mat-header-cell,
-    td.mat-cell {
-        padding: 10px 8px;
-        font-size: 13px;
-    }
+  table {
+    min-width: 500px;
+  }
 
-    .mat-elevation-z8 {
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+  th.mat-header-cell,
+  td.mat-cell {
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .mat-elevation-z8 {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
 }

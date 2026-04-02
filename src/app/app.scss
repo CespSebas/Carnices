@@ -1,0 +1,12 @@
+.body-container {
+  padding-top: 80px;   /* altura del header fijo */
+  padding-bottom: 75px; /* altura del footer fijo */
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .body-container {
+    padding-top: 70px;
+  }
+}

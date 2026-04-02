@@ -12,12 +12,24 @@ export const etiqueta = [
     descripcion: 'Contiene carne de res de alta calidad',
   },
   {
-    nombre: 'Artesanal',
-    descripcion: 'Hecho con receta tradicional y procesos manuales',
+    nombre: 'Sin CDM',
+    descripcion: 'Sin colorantes, preservantes ni aditivos artificiales',
+  },
+  {
+    nombre: 'Económico',
+    descripcion: 'Opción accesible sin sacrificar calidad',
+  },
+  {
+    nombre: 'Desayuno',
+    descripcion: 'Ideal para acompañar el desayuno',
   },
   {
     nombre: 'Premium',
     descripcion: 'Ingredientes de primera calidad',
+  },
+  {
+    nombre: 'Natural',
+    descripcion: 'Preparado con condimentos y especias naturales',
   },
   {
     nombre: 'Bajo en Grasa',
@@ -32,20 +44,8 @@ export const etiqueta = [
     descripcion: 'Apto para personas con intolerancia al gluten',
   },
   {
-    nombre: 'Sin Lactosa',
-    descripcion: 'Libre de derivados lácteos',
-  },
-  {
-    nombre: 'Natural',
-    descripcion: 'Preparado con condimentos y especias naturales',
-  },
-  {
-    nombre: 'Light',
-    descripcion: 'Versión reducida en calorías',
-  },
-  {
-    nombre: 'Picante',
-    descripcion: 'Con un toque de especias y picor',
+    nombre: 'Artesanal',
+    descripcion: 'Hecho con receta tradicional y procesos manuales',
   },
   {
     nombre: 'Ahumado',

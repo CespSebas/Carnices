@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { PedidoService } from '../../share/services/pedido.service';
 import { Subject, takeUntil } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-pedido-detail',
@@ -18,7 +19,8 @@ import { Subject, takeUntil } from 'rxjs';
     MatCardModule,
     MatTableModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    TranslateModule,
   ]
 })
 export class PedidoDetail {

@@ -21,7 +21,8 @@ export interface ProductoModel {
 
 
   etiquetas: EtiquetaProductoModel[];
-  imagenes: ImagenModel[]; // ✅ Agregado
+  imagenes: ImagenModel[];
+  presentaciones?: { id: number; nombre: string; precio: number }[]; // ✅ Agregado
 
   resennas: ResennaModel[];
   

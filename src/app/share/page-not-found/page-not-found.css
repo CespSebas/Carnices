@@ -161,3 +161,57 @@ p {
 .glow-animation {
   animation: glowClick 0.5s ease forwards;
 }
+
+/* ── Responsive ── */
+
+/* TABLETA (≤ 768px) */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 5rem;
+    letter-spacing: 0.15em;
+  }
+
+  p {
+    font-size: 1.2rem;
+  }
+
+  .hexagon-3d,
+  .robot {
+    width: 130px;
+    height: 130px;
+  }
+
+  .btn-electric {
+    font-size: 1.1rem;
+    padding: 12px 36px;
+  }
+}
+
+/* MÓVIL (≤ 480px) */
+@media (max-width: 480px) {
+  h1 {
+    font-size: 3.5rem;
+    letter-spacing: 0.1em;
+  }
+
+  p {
+    font-size: 1rem;
+    max-width: 300px;
+  }
+
+  .hexagon-3d,
+  .robot {
+    width: 100px;
+    height: 100px;
+  }
+
+  .container {
+    gap: 24px;
+    padding: 20px;
+  }
+
+  .btn-electric {
+    font-size: 1rem;
+    padding: 10px 28px;
+  }
+}

@@ -9,7 +9,7 @@
 
                 <div class="slide-container">
                     <img *ngFor="let img of datos.imagenes; let i = index"
-                        [src]="'http://localhost:3000/images/' + img.imagen"
+                        [src]="'http://localhost:3000/images/' + img.url"
                         [alt]="datos.nombre + ' ' + (i + 1)"
                         class="main-image"
                         [class.active]="currentImageIndex === i">
@@ -22,7 +22,7 @@
 
             <div class="thumbnail-container">
                 @for (img of datos.imagenes; track $index) {
-                <img [src]="'http://localhost:3000/images/' + img.imagen"
+                <img [src]="'http://localhost:3000/images/' + img.url"
                     [alt]="datos.nombre + ' thumbnail ' + ($index + 1)"
                     class="thumbnail"
                     [class.active]="currentImageIndex === $index"

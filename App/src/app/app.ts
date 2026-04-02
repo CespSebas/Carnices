@@ -11,11 +11,9 @@ import { TranslateService } from '@ngx-translate/core';
 
 export class App {
   protected title = 'app';
-/*
-  constructor(private translate: TranslateService) {
-  this.translate.setDefaultLang('es');
-  this.translate.use('es');
-}
 
-*/
+  constructor(private translate: TranslateService) {
+    this.translate.setDefaultLang('es');
+    this.translate.use('es');
+  }
 }

@@ -86,6 +86,10 @@ button{
 }
 
 @media (max-width: 960px) {
+  .pedido-listado-container {
+    padding: 1rem;
+  }
+
   .pedido-fila {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto auto auto;
@@ -103,5 +107,26 @@ button{
   .columna.acciones {
     grid-column: span 2;
     text-align: right;
+  }
+}
+
+@media (max-width: 480px) {
+  .pedido-listado-container {
+    padding: 0.5rem;
+  }
+
+  .titulo-listado {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .pedido-fila {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+
+  .columna.acciones {
+    grid-column: span 1;
+    text-align: left;
   }
 }

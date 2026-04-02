@@ -321,20 +321,55 @@
 
 /* Responsive design */
 @media (max-width: 768px) {
+    .product-detail-card {
+        margin: 0.5rem;
+        border-radius: 8px;
+    }
+
     .product-detail-container {
         grid-template-columns: 1fr;
-        grid-template-areas: 
+        grid-template-areas:
             "gallery"
             "info"
             "reviews";
         padding: 1rem;
+        gap: 1rem;
     }
-    
-    .main-image {
-        height: 300px;
+
+    .image-slider {
+        height: 260px;
     }
-    
+
+    .product-title {
+        font-size: 1.4rem;
+    }
+
+    .current-price {
+        font-size: 1.5rem;
+    }
+
     .actions-section {
         flex-direction: column;
+        margin-top: 1rem;
+    }
+
+    .review-footer {
+        flex-direction: column;
+        gap: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .image-slider {
+        height: 200px;
+    }
+
+    .thumbnail {
+        width: 48px;
+        height: 48px;
+    }
+
+    .product-title {
+        font-size: 1.2rem;
     }
 }

@@ -8,7 +8,11 @@ export class ProductoController {
       const productos = await prisma.producto.findMany({
         where: { activo: true },
         orderBy: { nombre: 'asc' },
-        include: { imagenes: true, presentaciones: { where: { activo: true } } },
+        include: {
+          imagenes: true,
+          presentaciones: { where: { activo: true } },
+          etiquetas: { include: { etiqueta: { select: { id: true, nombre: true } } } },
+        },
       });
       response.json(productos);
     } catch (error) {
@@ -64,7 +68,11 @@ export class ProductoController {
           activo: true,
           nombre: { contains: termino },
         },
-        include: { imagenes: true, presentaciones: { where: { activo: true } } },
+        include: {
+          imagenes: true,
+          presentaciones: { where: { activo: true } },
+          etiquetas: { include: { etiqueta: { select: { id: true, nombre: true } } } },
+        },
       });
 
       response.json(productos);

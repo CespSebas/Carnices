@@ -3,15 +3,16 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 80px; /* un poco más alto para el logo grande */
+  height: 80px;
   padding: 0 2rem;
   background: linear-gradient(90deg, #7b1f1f, #3e1f1f);
   color: #fffbea;
-  font-family: 'Montserrat',  sans-serif;
+  font-family: 'Montserrat', sans-serif;
   display: flex;
   align-items: center;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
   z-index: 1200;
+  box-sizing: border-box;
 }
 
 /* Contenedores */
@@ -19,7 +20,8 @@
 .header-right {
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem;
+  flex-shrink: 0;
 }
 
 .header-spacer {
@@ -38,58 +40,16 @@
   position: relative;
 }
 
-/* Logo circular con fondo y borde dorado */
 .logo-section::before {
   content: "";
   display: block;
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background-image: url('../../../assets/images/carnicesLogoDorado.png'); /* tu logo en assets */
+  background-image: url('../../../assets/images/carnicesLogoDorado.png');
   background-size: cover;
   background-position: center;
-   
-  /*background-color: rgba(0, 0, 0, 0.25);  fondo suave 
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);*/
   transition: all 0.3s ease;
-}
-
-/* Hover efecto premium */
-.logo-section::before:hover {
-  transform: scale(1.15);
-}
-
-/* Ajuste responsivo */
-@media (max-width: 768px) {
-  .app-header {
-    height: 70px;
-    padding: 0.5rem 1rem;
-    flex-wrap: wrap;
-  }
-
-  .logo-section::before {
-    width: 50px;
-    height: 50px;
-    border: 2px solid #f59e0b;
-  }
-
-  .logo-section::before:hover {
-    transform: scale(1.12);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.45);
-  }
-
-  .app-name {
-    display: none;
-  }
-
-  .user-email {
-    display: none;
-  }
-
-  .header-left,
-  .header-right {
-    gap: 0.5rem;
-  }
 }
 
 /* Nombre de la app */
@@ -98,7 +58,35 @@
   letter-spacing: 1px;
 }
 
-/* Botones toolbar */
+/* Botones de navegación central (escritorio) */
+.header-center {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.header-center .main-btn {
+  color: #fcd34d;
+  font-weight: 500;
+  font-size: 0.95rem;
+  text-transform: none;
+  transition: color 0.3s, transform 0.2s;
+  white-space: nowrap;
+}
+
+.header-center .main-btn:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+/* Hamburger: oculto en escritorio */
+.hamburger-btn {
+  display: none !important;
+  color: #fcd34d !important;
+}
+
+/* Botones toolbar generales */
 mat-toolbar button {
   color: #fcd34d;
   text-transform: none;
@@ -124,9 +112,13 @@ mat-toolbar button:hover {
 /* Usuario */
 .user-email {
   font-size: 0.8rem;
-  margin-right: 10px;
+  margin-right: 4px;
   color: #fde68a;
   font-style: italic;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 160px;
 }
 
 /* Link activo */
@@ -139,4 +131,58 @@ mat-toolbar button:hover {
 ::ng-deep .cdk-overlay-container,
 ::ng-deep .cdk-overlay-pane {
   z-index: 2000 !important;
+}
+
+/* ── TABLET (≤ 960px): ocultar nav central, mostrar hamburguesa ── */
+@media (max-width: 960px) {
+  .header-center {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: inline-flex !important;
+  }
+
+  .user-email {
+    max-width: 120px;
+    font-size: 0.75rem;
+  }
+}
+
+/* ── MÓVIL (≤ 768px) ── */
+@media (max-width: 768px) {
+  .app-header {
+    height: 70px;
+    padding: 0 0.75rem;
+  }
+
+  .logo-section::before {
+    width: 52px;
+    height: 52px;
+  }
+
+  .app-name {
+    display: none;
+  }
+
+  .user-email {
+    display: none;
+  }
+
+  .header-left,
+  .header-right {
+    gap: 0.25rem;
+  }
+}
+
+/* ── MÓVIL PEQUEÑO (≤ 480px) ── */
+@media (max-width: 480px) {
+  .app-header {
+    padding: 0 0.5rem;
+  }
+
+  .logo-section::before {
+    width: 44px;
+    height: 44px;
+  }
 }

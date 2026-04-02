@@ -22,7 +22,8 @@ import { ProductoIndex } from './producto-index/producto-index';
 import { ProductoDetail } from './producto-detail/producto-detail';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatListModule } from '@angular/material/list';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -50,7 +51,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatRadioModule,
     MatDividerModule,
     MatTooltipModule,
+    FormsModule,
     ReactiveFormsModule,
+    TranslateModule,
     ProductoDetail,
   ]
 })

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { ProductoService } from '../../share/services/producto.service';
+import { EtiquetaService } from '../../share/services/etiqueta.service';
 import { ProductoModel } from '../../share/models/ProductoModel';
+import { EtiquetaModel } from '../../share/models/EtiquetaModel';
 import { NotificationService } from '../../share/notification-service';
 import { Router } from '@angular/router';
 
@@ -11,32 +13,78 @@ import { Router } from '@angular/router';
   styleUrl: './producto-index.css'
 })
 export class ProductoIndex {
- //Respuesta del API
-  datos: any;
+  allProductos: ProductoModel[] = [];
+  datos: ProductoModel[] = [];
+  etiquetas: EtiquetaModel[] = [];
+  selectedEtiquetas = new Set<number>();
+  searchTerm = '';
   filtersVisible = true;
 
-  constructor(private vjService:ProductoService,
-    private noti:NotificationService,
-    private router:Router
-    
-  ) {   
-    this.listProductos()
+  constructor(
+    private vjService: ProductoService,
+    private etiquetaService: EtiquetaService,
+    private noti: NotificationService,
+    private router: Router
+  ) {
+    this.listProductos();
+    this.listEtiquetas();
   }
 
-  //Listar todos los producto del API
   listProductos() {
-    //localhost:3000/producto
     this.vjService.get().subscribe((respuesta: ProductoModel[]) => {
-      console.log(respuesta);
-      this.datos = respuesta;
-      
+      this.allProductos = respuesta;
+      this.applyFilters();
     });
   }
-  detalle(id:Number){
-    this.router.navigate(['/producto',id])
+
+  listEtiquetas() {
+    this.etiquetaService.get().subscribe((respuesta: EtiquetaModel[]) => {
+      this.etiquetas = respuesta;
+    });
   }
-  comprar(producto:ProductoModel){
-    this.noti.success('Compra','Producto comprado: '+producto.nombre,6000)
+
+  toggleEtiqueta(id: number) {
+    if (this.selectedEtiquetas.has(id)) {
+      this.selectedEtiquetas.delete(id);
+    } else {
+      this.selectedEtiquetas.add(id);
+    }
+    this.applyFilters();
+  }
+
+  isSelected(id: number): boolean {
+    return this.selectedEtiquetas.has(id);
+  }
+
+  clearFilters() {
+    this.selectedEtiquetas.clear();
+    this.searchTerm = '';
+    this.applyFilters();
+  }
+
+  applyFilters() {
+    let result = this.allProductos;
+
+    if (this.searchTerm.trim()) {
+      const term = this.searchTerm.toLowerCase().trim();
+      result = result.filter(p => p.nombre.toLowerCase().includes(term));
+    }
+
+    if (this.selectedEtiquetas.size > 0) {
+      result = result.filter(p =>
+        p.etiquetas?.some(ep => this.selectedEtiquetas.has(ep.etiquetaId))
+      );
+    }
+
+    this.datos = result;
+  }
+
+  detalle(id: number) {
+    this.router.navigate(['/producto', id]);
+  }
+
+  comprar(producto: ProductoModel) {
+    this.noti.success('Compra', 'Producto comprado: ' + producto.nombre, 6000);
   }
 
   toggleFilters() {
@@ -44,9 +92,6 @@ export class ProductoIndex {
   }
 
   trackById(index: number, item: any): number {
-  return item.id;
-}
-
-
-
+    return item.id;
+  }
 }

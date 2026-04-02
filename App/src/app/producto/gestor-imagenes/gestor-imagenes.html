@@ -1,0 +1,63 @@
+<div class="gestor-container">
+  <h3 class="gestor-title">
+    <mat-icon>photo_library</mat-icon>
+    Imágenes del Producto
+  </h3>
+
+  <!-- Galería actual -->
+  <div class="imagenes-grid" *ngIf="imagenes.length > 0; else sinImagenes">
+    <div class="imagen-card" *ngFor="let img of imagenes" [class.es-principal]="img.esPrincipal">
+      <img [src]="getUrl(img.url)" [alt]="'Imagen ' + img.id" class="imagen-thumb">
+      <div class="imagen-badge" *ngIf="img.esPrincipal">
+        <mat-icon>star</mat-icon> Principal
+      </div>
+      <div class="imagen-actions">
+        <button mat-icon-button
+                [matTooltip]="img.esPrincipal ? 'Ya es principal' : 'Marcar como principal'"
+                [disabled]="img.esPrincipal"
+                (click)="setPrincipal(img)">
+          <mat-icon>{{ img.esPrincipal ? 'star' : 'star_border' }}</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" matTooltip="Eliminar imagen" (click)="eliminar(img)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #sinImagenes>
+    <p class="sin-imagenes">Este producto no tiene imágenes aún.</p>
+  </ng-template>
+
+  <!-- Previews de archivos seleccionados -->
+  <div class="previews-grid" *ngIf="previews.length > 0">
+    <h4>Archivos a subir ({{ previews.length }})</h4>
+    <div class="previews-row">
+      <img *ngFor="let p of previews" [src]="p" class="preview-thumb" alt="preview">
+    </div>
+  </div>
+
+  <!-- Barra de progreso -->
+  <mat-progress-bar *ngIf="subiendo" mode="indeterminate" class="upload-bar"></mat-progress-bar>
+
+  <!-- Acciones de subida -->
+  <div class="upload-actions">
+    <input #fileInput type="file" multiple accept="image/*"
+           style="display:none" (change)="onFilesSelected($event)">
+
+    <button mat-raised-button color="primary" (click)="fileInput.click()" [disabled]="subiendo">
+      <mat-icon>add_photo_alternate</mat-icon>
+      Seleccionar imágenes
+    </button>
+
+    <ng-container *ngIf="archivosSeleccionados.length > 0">
+      <button mat-raised-button color="accent" (click)="subir()" [disabled]="subiendo">
+        <mat-icon>cloud_upload</mat-icon>
+        Subir {{ archivosSeleccionados.length }} archivo(s)
+      </button>
+      <button mat-stroked-button (click)="cancelarSeleccion()" [disabled]="subiendo">
+        Cancelar
+      </button>
+    </ng-container>
+  </div>
+</div>

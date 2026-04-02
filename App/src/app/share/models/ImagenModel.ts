@@ -1,5 +1,7 @@
 export interface ImagenModel {
   id: number;
-  imagen: string;      // nombre del archivo o URL
+  url: string;
+  orden: number;
+  esPrincipal: boolean;
   productoId: number;
 }

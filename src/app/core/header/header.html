@@ -10,7 +10,7 @@
   <!-- Espaciador central -->
   <span class="header-spacer"></span>
 
-  <!-- Botones principales -->
+  <!-- Botones principales (escritorio) -->
   <div class="header-center">
     <button mat-button [routerLink]="['/inicio']" class="main-btn">
       <span>{{ 'HOME' | translate }}</span>
@@ -57,6 +57,30 @@
       <button mat-menu-item (click)="changeLanguage('en')">
         <img src="../../../assets/us.svg" alt="English" width="20" height="20" style="margin-right:8px;">
         {{ 'ENGLISH' | translate }}
+      </button>
+    </mat-menu>
+
+    <!-- Hamburger menu (solo móvil) -->
+    <button mat-icon-button class="hamburger-btn" [matMenuTriggerFor]="mobileMenu" aria-label="Menú de navegación">
+      <mat-icon>menu</mat-icon>
+    </button>
+
+    <mat-menu #mobileMenu="matMenu">
+      <button mat-menu-item [routerLink]="['/inicio']">
+        <mat-icon>home</mat-icon>
+        <span>{{ 'HOME' | translate }}</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/producto']">
+        <mat-icon>storefront</mat-icon>
+        <span>{{ 'PRODUCTS' | translate }}</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/pedido']">
+        <mat-icon>receipt_long</mat-icon>
+        <span>{{ 'ORDERS' | translate }}</span>
+      </button>
+      <button mat-menu-item [routerLink]="['/acercade']">
+        <mat-icon>info</mat-icon>
+        <span>{{ 'ABOUT' | translate }}</span>
       </button>
     </mat-menu>
   </div>

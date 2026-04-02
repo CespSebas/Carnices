@@ -103,16 +103,35 @@
 
 /* Responsivo */
 @media (max-width: 768px) {
+  .hero-professional {
+    background-attachment: scroll;
+  }
+
   .hero-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 
   .hero-subtitle {
     font-size: 1rem;
+    margin-bottom: 2rem;
   }
 
   .hero-btn {
     width: 100%;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 1.7rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .hero-content {
+    padding: 0 1rem;
   }
 }

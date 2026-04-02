@@ -85,7 +85,16 @@ button{
   gap: 0.4rem;
 }
 
+/* TABLETA (≤ 960px) */
 @media (max-width: 960px) {
+  .pedido-listado-container {
+    padding: 1rem;
+  }
+
+  .titulo-listado {
+    font-size: 1.6rem;
+  }
+
   .pedido-fila {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto auto auto;
@@ -103,5 +112,39 @@ button{
   .columna.acciones {
     grid-column: span 2;
     text-align: right;
+  }
+}
+
+/* MÓVIL (≤ 600px) */
+@media (max-width: 600px) {
+  .pedido-listado-container {
+    padding: 0.75rem;
+  }
+
+  .titulo-listado {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .pedido-fila {
+    grid-template-columns: 1fr;
+    padding: 0.75rem;
+  }
+
+  .columna {
+    font-size: 0.88rem;
+    white-space: normal;
+    overflow: visible;
+  }
+
+  .columna.acciones {
+    grid-column: span 1;
+    text-align: left;
+    margin-top: 0.5rem;
+  }
+
+  .estado {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.6rem;
   }
 }

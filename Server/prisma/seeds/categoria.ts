@@ -1,15 +1,15 @@
 export const categoria = [
   {
-    nombre: 'Salchichónes y Chorizos',
-    descripcion: 'Artesanales y llenos de sabor',
+    nombre: 'Jamones',
+    descripcion: 'Jamones frescos en distintas presentaciones y gramajes',
   },
   {
-    nombre: 'Jamones y Mortadelas',
-    descripcion: 'Suaves, frescos y deliciosos',
+    nombre: 'Salchichones',
+    descripcion: 'Salchichones artesanales y de pavo',
   },
   {
-    nombre: 'Paquetería al Vacío',
-    descripcion: 'Frescura que dura más',
+    nombre: 'Salchichas',
+    descripcion: 'Salchichas para desayuno y parrilla',
   },
   {
     nombre: 'Productos Ahumados',
@@ -20,7 +20,7 @@ export const categoria = [
     descripcion: 'Saludables y bajas en grasa',
   },
   {
-    nombre: 'Variedad de Productos',
-    descripcion: 'Combos para todos los gustos',
-  }
+    nombre: 'Combos y Variedad',
+    descripcion: 'Combinaciones para todos los gustos',
+  },
 ];

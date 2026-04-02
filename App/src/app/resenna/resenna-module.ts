@@ -24,6 +24,7 @@ import { ResennaIndex } from './resenna-index/resenna-index';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { ResennaDetail } from './resenna-detail/resenna-detail';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -51,7 +52,7 @@ import { ResennaDetail } from './resenna-detail/resenna-detail';
     MatDividerModule,
     MatTooltipModule,
     ReactiveFormsModule,
-    
+    TranslateModule,
   ]
 })
 export class ResennaModule { }

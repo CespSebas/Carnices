@@ -5,15 +5,10 @@
 <div class="container-404">
   <div class="glitch-box">
     <h1 class="glitch-text" data-text="404">404</h1>
-    <p class="glow-subtitle">La página que buscas no está disponible.</p>
+    <p class="glow-subtitle">{{ 'PAGE_NOT_FOUND_DESC' | translate }}</p>
 
-    <button
-      mat-stroked-button
-      class="btn-electric"
-      (click)="irInicio()"
-      aria-label="Volver al inicio"
-    >
-      Volver al inicio
+    <button mat-stroked-button class="btn-electric" (click)="irInicio()">
+      {{ 'BACK_HOME' | translate }}
     </button>
   </div>
 </div>

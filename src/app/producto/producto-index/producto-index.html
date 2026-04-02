@@ -35,7 +35,7 @@
       <mat-card class="product-tile" *ngFor="let item of datos; trackBy: trackById">
         <div class="product-badge" *ngIf="item.descuento">-{{item.descuento}}%</div>
         <div class="product-image">
-          <img [src]="'http://localhost:3000/images/' + item.imagenes[0]?.imagen" [alt]="item.nombre">
+          <img [src]="'http://localhost:3000/images/' + item.imagenes[0]?.url" [alt]="item.nombre">
         </div>
         <div class="product-info">
           <h3 class="product-name">{{item.nombre}}</h3>

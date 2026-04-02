@@ -1,24 +1,37 @@
-<div class="shop-container">
-  <aside class="filter-panel">
+<div class="shop-container" [class.filters-open]="filtersVisible">
+  <aside class="filter-panel" [class.visible]="filtersVisible">
     <div class="filter-header">
-      <h2>Filtrar Productos</h2>
+       
       <button mat-icon-button class="close-filters" (click)="toggleFilters()">
         <mat-icon>close</mat-icon>
       </button>
     </div>
 
-    <mat-accordion class="filter-accordion">
-      <mat-expansion-panel expanded="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title>Búsqueda</mat-panel-title>
-        </mat-expansion-panel-header>
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nombre del producto</mat-label>
-          <input matInput placeholder="Ej: Laptop HP">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-      </mat-expansion-panel>
-    </mat-accordion>
+    
+
+    <!-- Etiquetas -->
+    <div class="filter-section">
+      <h3 class="filter-label">Etiquetas</h3>
+      <div class="etiquetas-chips">
+        @for (etiqueta of etiquetas; track etiqueta.id) {
+        <button class="etiqueta-chip"
+                [class.active]="isSelected(etiqueta.id)"
+                (click)="toggleEtiqueta(etiqueta.id)">
+          {{etiqueta.nombre}}
+        </button>
+        }
+      </div>
+    </div>
+
+    <!-- Limpiar -->
+    @if (selectedEtiquetas.size > 0 || searchTerm) {
+    <div class="filter-section">
+      <button mat-stroked-button color="warn" class="full-width" (click)="clearFilters()">
+        <mat-icon>clear</mat-icon>
+        Limpiar filtros
+      </button>
+    </div>
+    }
   </aside>
 
   <main class="product-grid">
@@ -31,23 +44,48 @@
       </button>
     </div>
 
-    <div class="grid-layout" *ngIf="datos">
-      <mat-card class="product-tile" *ngFor="let item of datos; trackBy: trackById">
-        <div class="product-badge" *ngIf="item.descuento">-{{item.descuento}}%</div>
+    <!-- Chips activos -->
+    @if (selectedEtiquetas.size > 0) {
+    <div class="active-filters">
+      @for (etiqueta of etiquetas; track etiqueta.id) {
+        @if (isSelected(etiqueta.id)) {
+        <span class="active-chip">
+          {{etiqueta.nombre}}
+          <mat-icon (click)="toggleEtiqueta(etiqueta.id)">close</mat-icon>
+        </span>
+        }
+      }
+    </div>
+    }
+
+    <div class="grid-layout">
+      @for (item of datos; track item.id) {
+      <mat-card class="product-tile">
+        @if (item.descuento) {
+        <div class="product-badge">-{{item.descuento}}%</div>
+        }
         <div class="product-image">
-          <img [src]="'http://localhost:3000/images/' + item.imagenes[0]?.imagen" [alt]="item.nombre">
+          <img [src]="'http://localhost:3000/images/' + item.imagenes[0]?.url" [alt]="item.nombre">
         </div>
         <div class="product-info">
           <h3 class="product-name">{{item.nombre}}</h3>
           <div class="price-section">
-            <ng-container *ngIf="item.descuento; else noDiscount">
-              <span class="original-price">{{item.precio | currency:'USD':'symbol':'1.2-2'}}</span>
-              <span class="current-price">{{item.precioDescuento | currency:'USD':'symbol':'1.2-2'}}</span>
-            </ng-container>
-            <ng-template #noDiscount>
-              <span class="current-price">{{item.precio | currency:'USD':'symbol':'1.2-2'}}</span>
-            </ng-template>
+            @if (item.descuento) {
+            <span class="original-price">{{item.precio | currency:'USD':'symbol':'1.2-2'}}</span>
+            <span class="current-price">{{item.precioDescuento | currency:'USD':'symbol':'1.2-2'}}</span>
+            } @else {
+            <span class="current-price">{{item.precio | currency:'USD':'symbol':'1.2-2'}}</span>
+            }
           </div>
+
+          @if (item.presentaciones && item.presentaciones.length > 0) {
+          <div class="presentaciones-section">
+            @for (p of item.presentaciones; track p.id) {
+            <span class="presentacion-chip">{{p.nombre}}</span>
+            }
+          </div>
+          }
+
           <div class="product-actions">
             <button mat-icon-button color="primary" (click)="detalle(item.id)">
               <mat-icon>visibility</mat-icon>
@@ -59,6 +97,7 @@
           </div>
         </div>
       </mat-card>
+      }
     </div>
   </main>
 </div>

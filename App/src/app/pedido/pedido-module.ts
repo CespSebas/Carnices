@@ -25,6 +25,7 @@ import { MatListModule } from '@angular/material/list';
 import { ReactiveFormsModule } from '@angular/forms';
 import { PedidoIndex } from './pedido-index/pedido-index';
 import { PedidoDetail } from './pedido-detail/pedido-detail';
+import { TranslateModule } from '@ngx-translate/core';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { PedidoDetail } from './pedido-detail/pedido-detail';
     MatDividerModule,
     MatTooltipModule,
     ReactiveFormsModule,
+    TranslateModule,
     PedidoDetail,
   ]
 })
